@@ -1,10 +1,3 @@
----
-math: true
----
-
-{% assign tp = site.data.trabajos.TP1 %}
-{% capture fecha %}{{tp.entrega | date: "%e/%m"}}{% endcapture %}
-
 # Trabajo Práctico 1: La mafia de los algortimos greedy
 
 El presente trabajo busca evaluar el desarrollo y análisis de un algoritmo Greedy. 
