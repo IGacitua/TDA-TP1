@@ -18,11 +18,11 @@ def fileReader():
     else:
         elementCount = int(firstLine)
     
-    timeStamps = []
+    timestamps = []
     operations = []
     for i in range(elementCount):
         line = file.readline().split(",")
-        timeStamps.append((line[0], line[1].strip('\n')))
+        timestamps.append((int(line[0]), int(line[1].strip('\n'))))
     for i in range(elementCount):
         operations.append(int(file.readline()))
-    return timeStamps, operations
+    return timestamps, operations
