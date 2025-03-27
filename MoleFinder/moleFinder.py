@@ -8,15 +8,18 @@ startTime = time.time()
 def moleFinder():
 
     timestamps, operations = fileReader() # Crea ambas listas
-    appareances = createAppareanceList(timestamps, operations)
     if (debug is True):
-        print("Appareances done.")
+        print(timestamps)
+        print(operations)
+    appareances = createAppareanceList(timestamps, operations)
+    print(appareances)
     lengthSort(appareances)
+    print(appareances)
     foundTimestamps = []
     i = 0
     for i in range(len(appareances)):
-        if (debug is True):
-            print(f"Iteration {i}, {(startTime - time.time()):.2f}s since start.")
+        #if (debug is True):
+            #print(f"Iteration {i}, {(time.time() - startTime):.2f}s since start.")
         closest = findClosest(operations[i], appareances[i], foundTimestamps)
         if (closest == -1):
             return False
@@ -28,26 +31,31 @@ def moleFinder():
 
     
 def createAppareanceList(timestamps, operations):
-    appareances = [[]] * len(operations) 
+    appareances = [[] for Null in range(len(operations))]
     for o in range(len(appareances)):
-        if (debug is True):
-            print(f"Operation {o}, {(startTime - time.time()):.2f}s since start.")
+        #if (debug is True):
+            #print(f"Operation {o}, {(time.time() - startTime):.2f}s since start.")
         operation = operations[o]
         for t in range(len(appareances)):
             lowerBound = timestamps[t][0] - timestamps[t][1]
             upperBound = timestamps[t][0] + timestamps[t][1]
-            if (operation > lowerBound) and (operation < upperBound):
-                appareances[o].append(timestamps[t])
+            if (operation >= lowerBound) and (operation <= upperBound):
+                (appareances[o]).append(timestamps[t])
+        print(f"Operation {operations[o]}: {appareances[o]} ")
+    #print(appareances)
     return appareances
 
 def findClosest(operationTime, timestamps, foundTimestamps):
     distanceSort(timestamps, operationTime)
+    print(timestamps)
     #marginSort(timestamps)
     for i in range(len(timestamps)):
-        if (debug is True):
-            print(f"Timestamp {i}: {timestamps[i]}")
+        #if (debug is True):
+            #print(f"Timestamp {i}: {timestamps[i]}")
         if timestamps[i] not in foundTimestamps:
             foundTimestamps.append(timestamps[i])
+            if (debug is True):
+                print(f"{operationTime} -> {timestamps[i][0]} ± {timestamps[i][1]}")
             return i
     return -1
 
@@ -55,4 +63,4 @@ def findClosest(operationTime, timestamps, foundTimestamps):
 
 if __name__ == "__main__":
     print(moleFinder())
-    print(f"{(startTime - time.time()):.2f}s since start.")
+    print(f"{(time.time() - startTime):.2f}s since start.")

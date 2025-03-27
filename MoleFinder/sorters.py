@@ -1,7 +1,7 @@
 import math
 # Temp bubble sort. Reemplazar por quicksort
 
-debug = True
+debug = False
 
 # Ordena la lista en función de borde izquierdo
 # DEPRECATED
