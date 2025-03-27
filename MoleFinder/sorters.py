@@ -3,22 +3,6 @@ import math
 
 debug = False
 
-# Ordena la lista en función de borde izquierdo
-# DEPRECATED
-def timestampSort(list):
-    for i in range(len(list)):
-        swapped = False
-        for j in range(0, len(list) - i - 1):
-            differenceOne = list[j][0] - list[j][1]
-            differenceTwo = list[j+1][0] - list[j+1][1]
-            if (differenceOne > differenceTwo):
-                aux = list[j]
-                list[j] = list[j+1]
-                list[j+1] = aux
-                swapped = True
-        if swapped is False:
-            break
-
 # Ordena la lista en base a la distancia entre el centro y la operacion
 def distanceSort(list, operationTime, timestamps):
     for i in range(len(list)):
@@ -54,7 +38,7 @@ def marginSort(list, operationTime, timestamps):
             break
 
 # Ordena la lista en base al borde izquierdo
-def lowestSort(list, timestamps):
+def lowestSort(list, operationTime, timestamps):
     for i in range(len(list)):
         swapped = False
         for j in range(0, len(list) - i - 1):
@@ -69,6 +53,23 @@ def lowestSort(list, timestamps):
                 swapped = True
             elif debug:
                 print(f"{lowerBoundOne} > {lowerBoundTwo}")
+        if swapped is False:
+            break
+
+# Ordena la lista en base al centro
+def lowestMiddleSort(list, operationTime, timestamps):
+    for i in range(len(list)):
+        swapped = False
+        for j in range(0, len(list) - i - 1):
+            if (timestamps[list[j]]['time'] > timestamps[list[j+1]]['time']):
+                if debug:
+                    print(f"{timestamps[list[j]]['time']} > {timestamps[list[j+1]]['time']}")
+                aux = list[j]
+                list[j] = list[j+1]
+                list[j+1] = aux
+                swapped = True
+            elif debug:
+                print(f"{timestamps[list[j]]['time']} < {timestamps[list[j+1]]['time']}")
         if swapped is False:
             break
 
@@ -96,7 +97,7 @@ def lengthSort(list):
     for i in range(len(list)):
         swapped = False
         for j in range(0, len(list) - i - 1):
-            if (len(list[j]) > len(list[j+1])):
+            if (len(list[j]['intervals']) > len(list[j+1]['intervals'])):
                 aux = list[j]
                 list[j] = list[j+1]
                 list[j+1] = aux
