@@ -21,7 +21,7 @@ def moleFinder():
         if (closest == -1):
             if debug:
                 print(f"Operation {appareances[i]['opTime']} has no interval.")
-            #return False # No mole
+            return False # No mole
         else:
             timestamps[closest]["found"] = True
     return True

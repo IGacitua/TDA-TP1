@@ -3,6 +3,8 @@ import math
 
 debug = False
 
+### Usados para ordenar timestamps
+
 # Ordena la lista en base a la distancia entre el centro y la operacion
 def distanceSort(list, operationTime, timestamps):
     for i in range(len(list)):
@@ -93,7 +95,7 @@ def lowestDistanceSort(list, operationTime, timestamps):
             break
 
 # Ordena una lista en base a la key "operations"
-def operationsSort(list, timestamps):
+def operationsSort(list, operationTime, timestamps):
     for i in range(len(list)):
         swapped = False
         for j in range(0, len(list) - i - 1):
@@ -104,6 +106,8 @@ def operationsSort(list, timestamps):
                 swapped = True
         if swapped is False:
             break
+
+###
 
 # Ordena una lista de listas en base a la longitud de la lista
 # Usado para ordenar las operaciones.
