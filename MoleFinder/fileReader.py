@@ -28,6 +28,7 @@ def fileReader():
         timestamp["time"] = int(line[0])
         timestamp["error"] = int(line[1].strip('\n'))
         timestamp["found"] = False
+        timestamp["operations"] = 0 # En cuantas operaciones aparece la timestamp
         timestamps.append(timestamp)
     for i in range(elementCount):
         # Operations

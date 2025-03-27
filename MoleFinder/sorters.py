@@ -103,3 +103,16 @@ def lengthSort(list):
                 swapped = True
         if swapped is False:
             break
+
+# Ordena una lista en base a la key "operations"
+def operationsSort(list, timestamps):
+    for i in range(len(list)):
+        swapped = False
+        for j in range(0, len(list) - i - 1):
+            if (timestamps[list[j]]['operations'] > timestamps[list[j+1]]['operations']):
+                aux = list[j]
+                list[j] = list[j+1]
+                list[j+1] = aux
+                swapped = True
+        if swapped is False:
+            break

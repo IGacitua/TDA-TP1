@@ -40,6 +40,7 @@ def createAppareanceList(timestamps, operations):
             upperBound = timestamps[ts]["time"] + timestamps[ts]["error"]
             if (operation >= lowerBound) and (operation <= upperBound):
                 appareances[op]["intervals"].append(ts) # Guardo el indice de la timestamp, en relacion a la lista completa.
+                timestamps[ts]["operations"] += 1
         if (debug):
             print(f"Operation {operations[op]}, {(time.time() - startTime):.4f}s since start, intervals:", end=" ")
             printTimestamps(appareances[op]["intervals"], timestamps)
@@ -47,9 +48,9 @@ def createAppareanceList(timestamps, operations):
 
 def findClosest(operation, timestamps):
     opTime = operation["opTime"]
-    lowestSort(operation["intervals"], timestamps) # Quizá innecesario. Quizá haga que deje de ser O(n^2)
+    operationsSort(operation["intervals"], timestamps) # Quizá innecesario. Quizá haga que deje de ser O(n^2)
     if (debug):
-        print(operation["intervals"])
+        printTimestamps(operation['intervals'], timestamps)
     for ts in operation["intervals"]:
         if (timestamps[ts]["found"] is False):
             if (debug):
