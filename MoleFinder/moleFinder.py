@@ -2,14 +2,22 @@ from fileReader import *
 from sorters import *
 
 def moleFinder():
+    debug = True
     timestamps, operations = fileReader() # Crea ambas listas
     appareances = createAppareanceList(timestamps, operations)
     lengthSort(appareances)
     foundTimestamps = []
+    i = 0
     for i in range(len(appareances)):
+        if (debug is True):
+            print(f"Iteration {i}")
         closest = findClosest(operations[i], appareances[i], foundTimestamps)
         if (closest == -1):
             return False
+    if (debug is True):
+        print(f"Operation {i}, time {operations[i]}")
+        centerSort(foundTimestamps)
+        print(f"Timestamps: {foundTimestamps}")    
     return True
 
     
@@ -25,10 +33,11 @@ def createAppareanceList(timestamps, operations):
     return appareances
 
 def findClosest(operationTime, timestamps, foundTimestamps):
-    distanceSort(timestamps, operationTime)
+    #distanceSort(timestamps, operationTime)
+    marginSort(timestamps)
     for i in range(len(timestamps)):
-        if i not in foundTimestamps:
-            foundTimestamps.append(i)
+        if timestamps[i] not in foundTimestamps:
+            foundTimestamps.append(timestamps[i])
             return i
     return -1
 
