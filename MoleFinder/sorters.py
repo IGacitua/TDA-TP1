@@ -92,12 +92,12 @@ def lowestDistanceSort(list, operationTime, timestamps):
         if swapped is False:
             break
 
-# Ordena una lista de listas en base a la longitud de la lista
-def lengthSort(list):
+# Ordena una lista en base a la key "operations"
+def operationsSort(list, timestamps):
     for i in range(len(list)):
         swapped = False
         for j in range(0, len(list) - i - 1):
-            if (len(list[j]['intervals']) > len(list[j+1]['intervals'])):
+            if (timestamps[list[j]]['operations'] > timestamps[list[j+1]]['operations']):
                 aux = list[j]
                 list[j] = list[j+1]
                 list[j+1] = aux
@@ -105,12 +105,13 @@ def lengthSort(list):
         if swapped is False:
             break
 
-# Ordena una lista en base a la key "operations"
-def operationsSort(list, timestamps):
+# Ordena una lista de listas en base a la longitud de la lista
+# Usado para ordenar las operaciones.
+def lengthSort(list):
     for i in range(len(list)):
         swapped = False
         for j in range(0, len(list) - i - 1):
-            if (timestamps[list[j]]['operations'] > timestamps[list[j+1]]['operations']):
+            if (len(list[j]['intervals']) > len(list[j+1]['intervals'])):
                 aux = list[j]
                 list[j] = list[j+1]
                 list[j+1] = aux

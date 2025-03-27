@@ -9,19 +9,19 @@ def moleFinder():
     timestamps, operations = fileReader() # Crea ambas listas
     appareances = createAppareanceList(timestamps, operations)
     if (debug):
-        print(timestamps)
+        printAllTimestamps(timestamps)
     #    print(operations)
     #    print(appareances)
     lengthSort(appareances)
     i = 0
     for i in range(len(appareances)):
-        if debug:
-            print(f"\nOperation {appareances[i]['opTime']}")
+        #if debug:
+            #print(f"\nOperation {appareances[i]['opTime']}")
         closest = findClosest(appareances[i], timestamps)
         if (closest == -1):
             if debug:
                 print(f"Operation {appareances[i]['opTime']} has no interval.")
-            return False # No mole
+            #return False # No mole
         else:
             timestamps[closest]["found"] = True
     return True
@@ -48,7 +48,7 @@ def createAppareanceList(timestamps, operations):
 
 def findClosest(operation, timestamps):
     opTime = operation["opTime"]
-    lowestDistanceSort(operation["intervals"], opTime, timestamps) # Quizá innecesario. Quizá haga que deje de ser O(n^2)
+    distanceSort(operation["intervals"], opTime, timestamps) # Quizá innecesario. Quizá haga que deje de ser O(n^2)
     if (debug):
         printTimestamps(operation['intervals'], timestamps)
     for ts in operation["intervals"]:
@@ -67,6 +67,10 @@ def printTimestamps(appareances, timestamps):
             print(f"{timestamps[i]['time']}", end='.\n')
         iteration += 1
 
+# Funcion Debug
+def printAllTimestamps(timestamps):
+    for i in timestamps:
+        print(f"{i['time']} ± {i['error']}. {i['operations']} matches.")
 
 if __name__ == "__main__":
     print(moleFinder())
