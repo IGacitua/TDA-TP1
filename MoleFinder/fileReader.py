@@ -22,7 +22,7 @@ def fileReader():
     operations = []
     for i in range(elementCount):
         # Timestamps
-        # {time, error, found}
+        # {time, error, found, operations}
         timestamp = {}
         line = file.readline().split(",")
         timestamp["time"] = int(line[0])

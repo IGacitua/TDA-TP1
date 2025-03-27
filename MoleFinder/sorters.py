@@ -58,6 +58,25 @@ def lowestSort(list, operationTime, timestamps):
         if swapped is False:
             break
 
+# Ordena la lista en base al borde derecho
+def highestSort(list, operationTime, timestamps):
+    for i in range(len(list)):
+        swapped = False
+        for j in range(0, len(list) - i - 1):
+            lowerBoundOne = timestamps[list[j]]['time'] + timestamps[list[j]]['error']
+            lowerBoundTwo = timestamps[list[j+1]]['time'] + timestamps[list[j+1]]['error']
+            if (lowerBoundOne > lowerBoundTwo):
+                if debug:
+                    print(f"{lowerBoundOne} > {lowerBoundTwo}")
+                aux = list[j]
+                list[j] = list[j+1]
+                list[j+1] = aux
+                swapped = True
+            elif debug:
+                print(f"{lowerBoundOne} < {lowerBoundTwo}")
+        if swapped is False:
+            break
+
 # Ordena la lista en base al centro
 def lowestMiddleSort(list, operationTime, timestamps):
     for i in range(len(list)):

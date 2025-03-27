@@ -1,6 +1,7 @@
 import time
 from fileReader import *
-from sorters import *
+from sorters    import *
+from searcher   import *
 
 debug = True
 startTime = time.time()
@@ -9,27 +10,28 @@ def moleFinder():
     timestamps, operations = fileReader() # Crea ambas listas
     appareances = createAppareanceList(timestamps, operations)
     if (debug):
-        printAllTimestamps(timestamps)
+        print('', end='')
+    #    printAllTimestamps(timestamps)
     #    print(operations)
     #    print(appareances)
-    lengthSort(appareances)
-    i = 0
     for i in range(len(appareances)):
         #if debug:
             #print(f"\nOperation {appareances[i]['opTime']}")
-        closest = findClosest(appareances[i], timestamps)
+        lowest = searchLowest(appareances, timestamps)
+        closest = findClosest(appareances[lowest], timestamps)
         if (closest == -1):
             if debug:
-                print(f"Operation {appareances[i]['opTime']} has no interval.")
+                print(f"Operation {appareances[lowest]['opTime']} has no interval.")
             return False # No mole
         else:
             timestamps[closest]["found"] = True
+            appareances.pop(lowest)
     return True
 
 
 def createAppareanceList(timestamps, operations):
     appareances = [{} for Null in range(len(operations))]
-
+    
     # len(operations) == len(timestamps) == len(appareances) si no hay errores.
     for op in range(len(operations)):
         operation = operations[op]
@@ -48,7 +50,7 @@ def createAppareanceList(timestamps, operations):
 
 def findClosest(operation, timestamps):
     opTime = operation["opTime"]
-    mixedSortOne(operation["intervals"], opTime, timestamps) # Quizá innecesario. Quizá haga que deje de ser O(n^2)
+    highestSort(operation["intervals"], opTime, timestamps)
     for ts in operation["intervals"]:
         if (timestamps[ts]["found"] is False):
             if debug:
