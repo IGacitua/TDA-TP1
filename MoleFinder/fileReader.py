@@ -21,8 +21,16 @@ def fileReader():
     timestamps = []
     operations = []
     for i in range(elementCount):
+        # Timestamps
+        # {time, error, found}
+        timestamp = {}
         line = file.readline().split(",")
-        timestamps.append((int(line[0]), int(line[1].strip('\n'))))
+        timestamp["time"] = int(line[0])
+        timestamp["error"] = int(line[1].strip('\n'))
+        timestamp["found"] = False
+        timestamps.append(timestamp)
     for i in range(elementCount):
+        # Operations
+        # (opTime)
         operations.append(int(file.readline()))
     return timestamps, operations
