@@ -107,6 +107,25 @@ def operationsSort(list, operationTime, timestamps):
         if swapped is False:
             break
 
+# Ordena una lista en base a la key "operations". Si son iguales ordena en base a la distancia del medio a la operación
+def mixedSortOne(list, operationTime, timestamps):
+    for i in range(len(list)):
+        swapped = False
+        for j in range(0, len(list) - i - 1):
+            if (timestamps[list[j]]['operations'] > timestamps[list[j+1]]['operations']):
+                aux = list[j]
+                list[j] = list[j+1]
+                list[j+1] = aux
+                swapped = True
+            elif (timestamps[list[j]]['operations'] == timestamps[list[j+1]]['operations']):
+                if (abs(timestamps[list[j]]["time"] - operationTime) > abs(timestamps[list[j+1]]["time"] - operationTime)):
+                    aux = list[j]
+                    list[j] = list[j+1]
+                    list[j+1] = aux
+                    swapped = True
+        if swapped is False:
+            break
+
 ###
 
 # Ordena una lista de listas en base a la longitud de la lista

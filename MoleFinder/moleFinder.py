@@ -48,12 +48,12 @@ def createAppareanceList(timestamps, operations):
 
 def findClosest(operation, timestamps):
     opTime = operation["opTime"]
-    distanceSort(operation["intervals"], opTime, timestamps) # Quizá innecesario. Quizá haga que deje de ser O(n^2)
-    if (debug):
-        printTimestamps(operation['intervals'], timestamps)
+    mixedSortOne(operation["intervals"], opTime, timestamps) # Quizá innecesario. Quizá haga que deje de ser O(n^2)
     for ts in operation["intervals"]:
         if (timestamps[ts]["found"] is False):
-            print(f"{opTime} -> {timestamps[ts]['time']} ± {timestamps[ts]['error']}")
+            if debug:
+                print(f"{opTime} -> {timestamps[ts]['time']} ± {timestamps[ts]['error']}", end = '. Intervals: ')
+                printTimestamps(operation['intervals'], timestamps)
             return ts
     return -1
 
