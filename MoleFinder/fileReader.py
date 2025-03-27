@@ -25,10 +25,10 @@ def fileReader():
         # {time, error, found}
         timestamp = {}
         line = file.readline().split(",")
+        timestamp["endTime"] = int(int(line[0]) + int(line[1]))
         timestamp["time"] = int(line[0])
         timestamp["error"] = int(line[1].strip('\n'))
-        timestamp["found"] = False
-        timestamp["operations"] = 0 # En cuantas operaciones aparece la timestamp
+        timestamp["used"] = False
         timestamps.append(timestamp)
     for i in range(elementCount):
         # Operations
