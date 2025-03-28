@@ -1,13 +1,11 @@
-import sys
 
 # Lee el archivo dado por argumento
 # Formato como ../"Archivos Test"
 # Devuelve una dupla.
 # Primer segmento es un array de duplas (timestamp, errorMargin)
 # Segundo segmento es un array de los tiempos de operaciones
-def fileReader():
+def fileReader(filePath):
     # Get file from argument
-    filePath = sys.argv[1]
     file = open(filePath, 'r')
     firstLine = file.readline()
 

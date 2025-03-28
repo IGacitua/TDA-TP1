@@ -1,6 +1,7 @@
 import time
 from fileReader import *
 from sorters import *
+import sys
 
 debug = True
 startTime = time.time()
@@ -52,9 +53,7 @@ def merge(left, right):
 # Ejemplo de uso:
 
 
-def moleFinder():
-    timestamps, operations = fileReader()
-
+def moleFinder(timestamps, operations):
     sorted_timestamps = merge_sort(timestamps)
 
     for operation in operations:
@@ -66,7 +65,6 @@ def moleFinder():
                     timestampContainingOperationThatEndsSooner = timestamp
         if timestampContainingOperationThatEndsSooner is None:
             # Ningun timestamp contenia a la operacion. No es la rata
-            print("Operacion no contenida, cortando ejecucion")
             return False
         else:
             timestampContainingOperationThatEndsSooner["operation"] = operation
@@ -78,12 +76,58 @@ def moleFinder():
     return isTheRat
 
 
-if __name__ == "__main__":
-    result = moleFinder()
-    if result:
-        print("Es la rata!!!")
+def printResults(timestamps, isTheRat, testCaseName, verbose):
+    print("================================")
+    print("Nombre de prueba: ", testCaseName, "")
+    print("---------------")
+    print("Número total de timestamps: ", len(timestamps))
+    print("Tiempo total de ejecución: ", 0)
+    print("---------------")
+    if isTheRat:
+        print("Resultado: Es la rata!!!")
     else:
-        print("No es la rata")
+        print("Resultado: NO es la rata!!!")
+
+    if verbose:
+        print("---------------")
+        print("Asignaciones: \n")
+        for timestamp in timestamps:
+            print(
+                timestamp["operation"],
+                " --> ",
+                timestamp["time"],
+                " ± ",
+                timestamp["error"]
+            )
+    print("\n")
+
+
+if __name__ == "__main__":
+    verbose = False     # Especifica si se quiere imprimir en la salida todas las asignaciones
+
+    testNames = [
+        "5-es.txt",
+        "5-no-es.txt",
+        "10-es.txt",
+        "10-es-bis.txt",
+        "10-no-es.txt",
+        "10-no-es-bis.txt",
+        "50-es.txt",
+        "50-no-es.txt",
+        "100-es.txt",
+        "100-no-es.txt",
+        "500-es.txt",
+        "500-no-es.txt",
+        "1000-es.txt",
+        "1000-no-es.txt",
+        "5000-es.txt",
+        "5000-no-es.txt"
+    ]
+
+    for testName in testNames:
+        timestamps, operations = fileReader("Tests/" + testName)
+        result = moleFinder(timestamps, operations)
+        printResults(timestamps, result, testName, verbose)
     
 
 
