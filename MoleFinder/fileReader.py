@@ -25,6 +25,8 @@ def fileReader(filePath):
         line = file.readline().split(",")
         timestamp["startTime"] = int(int(line[0]) - int(line[1]))
         timestamp["endTime"] = int(int(line[0]) + int(line[1]))
+        timestamp["time"] = int(line[0])
+        timestamp["error"] = int(line[1])
         timestamp["operation"] = None
         timestamps.append(timestamp)
     for i in range(elementCount):

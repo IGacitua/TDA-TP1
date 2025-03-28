@@ -53,7 +53,7 @@ def merge(left, right):
 # Ejemplo de uso:
 
 
-def moleFinder(timestamps, operations):
+def moleFinder(timestamps, operations, result_array):
     sorted_timestamps = merge_sort(timestamps)
 
     for operation in operations:
@@ -71,24 +71,26 @@ def moleFinder(timestamps, operations):
 
     isTheRat = True
     for timestamp in sorted_timestamps:
+        result_array.append(timestamp)
         if timestamp["operation"] is None:
             isTheRat = False
+    
     return isTheRat
 
 
-def printResults(timestamps, isTheRat, testCaseName, verbose):
+def printResults(timestamps, isTheRat, testName, duration, verbose):
     print("================================")
-    print("Nombre de prueba: ", testCaseName, "")
+    print("Nombre de prueba: ", testName, "")
     print("---------------")
     print("Número total de timestamps: ", len(timestamps))
-    print("Tiempo total de ejecución: ", 0)
+    print("Tiempo total de ejecución: ", round(duration * 1000, 10), " milisegundos")
     print("---------------")
     if isTheRat:
         print("Resultado: Es la rata!!!")
     else:
         print("Resultado: NO es la rata!!!")
 
-    if verbose:
+    if verbose and len(timestamps) > 0:
         print("---------------")
         print("Asignaciones: \n")
         for timestamp in timestamps:
@@ -103,7 +105,7 @@ def printResults(timestamps, isTheRat, testCaseName, verbose):
 
 
 if __name__ == "__main__":
-    verbose = False     # Especifica si se quiere imprimir en la salida todas las asignaciones
+    verbose = True     # Especifica si se quiere imprimir en la salida todas las asignaciones
 
     testNames = [
         "5-es.txt",
@@ -126,8 +128,14 @@ if __name__ == "__main__":
 
     for testName in testNames:
         timestamps, operations = fileReader("Tests/" + testName)
-        result = moleFinder(timestamps, operations)
-        printResults(timestamps, result, testName, verbose)
+
+        result_array = []
+
+        start_time = time.time()
+        result = moleFinder(timestamps, operations, result_array)
+        totalTime = time.time() - start_time
+
+        printResults(result_array, result, testName, totalTime, verbose)
     
 
 
