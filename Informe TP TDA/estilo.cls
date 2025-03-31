@@ -104,12 +104,12 @@
 \\[1cm]
 	\textsc{\Large Teoría de Algoritmos}\\           % Materia
 	\textsc{\small (75.29) Curso Buchwald - Genender}\\[0.4cm]    % Subtítulo materia
-	{ \huge \bfseries Trabajo Práctico 0 \\ Lineamientos sobre informes}\\[0.3cm]      % Título
+	{ \huge \bfseries Trabajo Práctico 1 \\ La mafia de los algortimos greedy}\\[0.3cm]      % Título
 	\andreasline \\[0.2cm]
 	{\large \today  \\[0.4cm]}                          % Fecha
 	\begin{minipage}{0.3\textwidth}
 		\begin{flushleft}
-            \large{Pablo \\ Gaston Choconi \\ 106388}                   % Integrante 1
+            \large{Pablo Gaston \\ Choconi \\ 106388}                   % Integrante 1
 		\end{flushleft}
 	\end{minipage}
 	\begin{minipage}{0.3\textwidth}
