@@ -1,0 +1,38 @@
+\section{Análisis del problema}
+
+\subsection{El problema}
+
+El problema el cual vamos a resolver en este trabajo es el siguiente:
+
+
+\setlength{\leftskip}{4em} % Apply left indentation for the entire paragraph
+Trabajamos para la mafia de los amigos Amarilla Pérez y el Gringo Hinz. En estos momentos hay un problema: alguien les está robando dinero. No saben bien cómo, no saben exactamente cuándo, y por supuesto que no saben quién. Evidentemente quien lo está haciendo es muy hábil (probablemente haya aprendido de sus mentores).
+
+La única información con la que contamos son $n$ transacciones sospechosas, de las que tenemos un timestamp aproximado. Es decir, tenemos n tiempos \(t_i\), con un posible error \(e_i\). Por lo tanto, sabemos que dichas transacciones fueron realizadas en el intervalo \([t_i - e_i; t_i + e_i]\).
+
+Por medio de métodos de los cuales es mejor no estar al tanto, un interrogado dio el nombre de alguien que podría ser la rata. El Gringo nos pidió revisar las transacciones realizadas por dicha persona… en efecto, eran $n$ transacciones. Pero falta saber si, en efecto, condicen con los timestamps aproximados que habíamos obtenido previamente.
+
+El Gringo nos dio la orden de implementar un algoritmo que determine si, en efecto, las transacciones coinciden. Amarilla Perez nos sugirió que nos apuremos, si es que no queremos ser nosotros los siguientes sospechosos.
+
+\begin{itemize}
+	\setlength{\leftskip}{3em} % Apply left indentation for the entire paragraph
+	\item Hacer un análisis del problema, y proponer un algoritmo greedy que obtenga la solución al problema planteado: Dados los $n$ valores de los timestamps aproximados \(t_i\) y sus correspondientes errores \(e_i\), así como los timestamps de las $n$ operaciones \(s_i\) del sospechoso (pueden asumir que estos últimos vienen ordenados), indicar si el sospechoso es en efecto la rata y, si lo es, mostrar cuál timestamp coincide con cuál timestamp aproximado y error. Es importante notar que los intervalos de los timestamps aproximados pueden solaparse parcial o totalmente.
+	\item Demostrar que el algoritmo planteado determina correctamente siempre si los timestamps del sospechoso corresponden a los intervalos sospechosos, o no. Es decir, si condicen, que encuentra la asignación, y si no condicen, que el algoritmo detecta esto, en todos los casos.
+	\item Escribir el algoritmo planteado. Describir y justificar la complejidad de dicho algoritmo. Analizar si (y cómo) afecta la variabilidad de los valores de los diferentes valores a los tiempos del algoritmo planteado.
+	\item Realizar ejemplos de ejecución para encontrar soluciones y corroborar lo encontrado. Adicionalmente, el curso proveerá con algunos casos particulares para que puedan usar de prueba.
+	\item Hacer mediciones de tiempos para corroborar la complejidad teórica indicada. Esto, por supuesto, implica que deben generar sus sets de datos. Agregar los casos de prueba necesarios para dicha corroboración. Esta corroboración empírica debe realizarse confeccionando gráficos correspondientes, y utilizando la técnica de cuadrados mínimos.
+	\item Agregar cualquier conclusión que les parezca relevante.
+\end{itemize}
+
+\setlength{\leftskip}{0em}
+
+
+\subsection{Solución propuesta}
+
+
+
+
+
+
+
+
