@@ -6,8 +6,8 @@ def intervalGenerator(size, isRat):
     operations = []
     for i in range(size):
         interval = {}
-        timeStamp   = random.randrange(1000)
-        errorMargin = random.randrange(5, timeStamp)
+        timeStamp   = random.randrange(2, 1000) # Timestamp > 1
+        errorMargin = random.randrange(1, timeStamp) # Timestamp > Error Margin > 0
         interval['ts'] = timeStamp
         interval['er'] = errorMargin
         intervals.append(interval)
@@ -21,7 +21,7 @@ def intervalGenerator(size, isRat):
             operations.append(random.randrange(1000))
     return intervals, operations
 
-def fileCreator(outPath, size, isRat):
+def fileCreator(isRat, size, outPath = "default_output"):
     intervals, operations = intervalGenerator(size, isRat)
     mainFile = open(outPath, 'w')
     mainFile.write(f"# File generated automatically. Size {size}. Rat = {isRat}\n")
@@ -37,6 +37,7 @@ def fileCreator(outPath, size, isRat):
         mainFile.write(f"{intervals[i]['ts']},{intervals[i]['er']}\n")
     for i in range(size):
         mainFile.write(f"{operations[i]}\n")
+    return outPath
 
 if __name__ == "__main__":
     # Input:
@@ -47,4 +48,4 @@ if __name__ == "__main__":
     rat = True
     if (sys.argv[1] == 0):
         rat = False
-    fileCreator(sys.argv[3], int(sys.argv[2]), rat)
+    fileCreator(rat, int(sys.argv[2]), sys.argv[3])
