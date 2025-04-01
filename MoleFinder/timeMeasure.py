@@ -1,53 +1,48 @@
 from matplotlib import pyplot as plt
+from moleFinder import *
+from fileReader import *
+from intervalGenerator import *
+from scipy.optimize import curve_fit
 import time
-import sys
-import os
-import seaborn as sns
-import numpy as np
-import scipy as sp
-
-# Codigo robado que bloquea prints
-class HiddenPrints:
-    def __enter__(self):
-        self._original_stdout = sys.stdout
-        sys.stdout = open(os.devnull, 'w')
-
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        sys.stdout.close()
-        sys.stdout = self._original_stdout
 
 # Ejecuta FUNCTION con PARAMS, devuelve el tiempo de ejecución
 def measureTime(function, *params):
     startTime = time.time()
-    with HiddenPrints():
-        function(*params)
+    function(*params)
     return time.time() - startTime
 
-# Mide el tiempo de ejecución de FUNCTION con PARAMS, ITERATIONS veces y devuelve el promedio
-def averageTime(function, *params, iterations):
+# Mide el tiempo de ejecución de FUNCTION con PARAMS, PRECISION veces y devuelve el promedio
+def averageTime(function, precision, *params):
     sum = 0
-    for i in range(iterations):
+    for i in range(precision):
         sum += measureTime(function, *params)
-    return sum / iterations
+    return sum / precision
 
-# Siempre seteamos la seed de aleatoridad para que los resultados sean reproducibles
-np.random.seed(12345)
+# Genera promedios para archivos con LENGTH intervalos
+def dataGenerator(length):
+    timestamps, operations = fileReader(fileCreator(True, length))
+    average = averageTime(moleFinder, 10, timestamps, operations, [])
+    print(f"Average for length {length}: {average}")
+    return average
 
-sns.set_theme()
+# Funcion que utiliza curve_fit para aproximar tiempos
+def f(x, c1, c2):
+    return c1 * x + c2
 
-points = ((0, 0), (1, 0.75), (2, 2.25))
-x = [point[0] for point in points]
-y = [point[1] for point in points]
+def plotTime(x_values):
+    y_values = []
+    for i in x_values:
+        y_values.append(dataGenerator(i))
+    c, pcov = curve_fit(f, x_values, y_values)
+    print(f"X: {x_values}")
+    print(f"Y: {y_values}")
+    print(f"C: {c}")
+    ax: plt.Axes
+    fig, ax = plt.subplots()
+    ax.plot(x_values, y_values, label = "Original")
+    ax.plot(x_values, [c[0] * n + c[1] for n in x_values], 'r--', label="Ajuste")
+    ax.legend()
+    plt.show()
 
-ax: plt.Axes
-fig, ax = plt.subplots()
-ax.plot(x, y, "bo")
-ax.set_ylim(-0.1, 2.5)
-ax.set_xlim(-0.1, 2.5)
-
-f = lambda x: 1.125 * x  - 0.125
-ax.plot([p[0] for p in points], [f(p[0]) for p in points], 'r')
-
-plt.show()
-
-None
+plotTime([10,20,30,40,50])
+pause = input()
