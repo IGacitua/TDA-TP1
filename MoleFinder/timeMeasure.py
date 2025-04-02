@@ -20,36 +20,45 @@ def averageTime(function, precision, *params):
         sum += measureTime(function, *params)
     return sum / precision
 
-# Funcion que utiliza curve_fit para aproximar tiempos
-def f(x, c1, c2):
+# Funcion lineal
+def lineal(x, c1, c2):
     return c1 * x + c2
 
-def plotTime(x_values, precision, generatorSteps):
-    y_values = []
+# Funcion cuadrática
+def cuadratic(x, c1, c2, c3):
+    return c1 * (x**2) + c2 * x + c3
+
+# Obtiene el tiempo de ejecución promedio de moleFinder con X_VALUES, con un promedio obtenido de PRECISION iteraciones
+# Plotea la función original, y su curve_fit utilizando F
+# GENERATORSTEPS es cada cuanto varía cada valor de X (0,10,20,30,40,50) tiene STEPS de 10. Se utiliza para los ejes.
+def plotTime(x_values, precision, generatorSteps, f):
+    y_values_original = []
     for i in x_values:
         timestamps, operations = fileReader(fileCreator(True, i))
-        y_values.append(averageTime(moleFinder, precision, timestamps, operations, []))
-    c, pcov = curve_fit(f, x_values, y_values)
+        y_values_original.append(averageTime(moleFinder, precision, timestamps, operations, []))
+    c, pcov = curve_fit(f, x_values, y_values_original)
+    y_values_adjusted = [f(n,c[0],c[1], c[2]) for n in x_values]
     if debug:
         print(f"X: {x_values}")
-        print(f"Y: {y_values}")
+        print(f"Y: {y_values_original}")
         print(f"C: {c}")
 
     xInterval = generatorSteps * (len(x_values) // 10) # Interval at which the X axis has markers
+    yInterval = generatorSteps * (len(y_values_original) // 10) # Interval at which the Y axis has markers
 
-    plt.plot(x_values, y_values, label = "Original", c = "Black", linestyle="solid", marker=".", alpha = 0.5)
-    plt.plot(x_values, [c[0] * n + c[1] for n in x_values], label = "Adjusted", c = "Red", linestyle="dotted")
+    plt.plot(x_values, y_values_original, label = "Original", c = "Black", linestyle="solid", marker=".", alpha = 0.5)
+    plt.plot(x_values, y_values_adjusted, label = f.__name__.title(), c = "Red", linestyle="dotted")
     plt.xlabel("Interval count")
     plt.ylabel("Execution Time (ms)")
-    plt.xticks(range(0, x_values[-1], xInterval)) 
+    plt.xticks(range(0, x_values[-1] + xInterval, xInterval)) 
+    plt.yticks(range(0, max(y_values_original[-1], y_values_adjusted[-1]) + yInterval, yInterval))
     plt.legend()
     plt.show()
 
 
 if __name__ == '__main__':
-    steps = 10
-    interval = [i for i in range(0,1000, steps)]
+    steps = 25
     precision = 25
+    interval = [i for i in range(0,10000 + 1, steps)]
 
-    plotTime(interval, precision, steps)
-    pause = input()
+    plotTime(interval, precision, steps, cuadratic)
