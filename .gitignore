@@ -173,6 +173,6 @@ cython_debug/
 # PyPI configuration file
 .pypirc
 
-# Carpeta de testing
-Test
+# Temporary files
 src/default_output.txt
+Automatic *
