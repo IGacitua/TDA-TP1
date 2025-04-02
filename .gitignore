@@ -175,3 +175,5 @@ cython_debug/
 
 # Carpeta de testing
 Test
+MoleFinder/default_output
+MoleFinder/default_output - RESULTS
