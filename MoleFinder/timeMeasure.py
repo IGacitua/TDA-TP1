@@ -5,7 +5,7 @@ from intervalGenerator import fileCreator
 from matplotlib import pyplot as plt
 from scipy.optimize import curve_fit
 
-debug = False
+debug = True
 
 # Ejecuta FUNCTION con PARAMS, devuelve el tiempo de ejecución
 def measureTime(function, *params):
@@ -33,9 +33,10 @@ def cuadratic(x, c1, c2, c3):
 # GENERATORSTEPS es cada cuanto varía cada valor de X (0,10,20,30,40,50) tiene STEPS de 10. Se utiliza para los ejes.
 def plotTime(x_values, precision, generatorSteps, f):
     y_values_original = []
-    for i in x_values:
-        timestamps, operations = fileReader(fileCreator(True, i))
+    for i in range(len(x_values)):
+        timestamps, operations = fileReader(fileCreator(True, x_values[i]))
         y_values_original.append(averageTime(moleFinder, precision, timestamps, operations, []))
+        print(f"{x_values[i]}: {y_values_original[-1]}")
     c, pcov = curve_fit(f, x_values, y_values_original)
     y_values_adjusted = [f(n,c[0],c[1], c[2]) for n in x_values]
     if debug:
@@ -57,8 +58,8 @@ def plotTime(x_values, precision, generatorSteps, f):
 
 
 if __name__ == '__main__':
-    steps = 25
-    precision = 25
-    interval = [i for i in range(0,10000 + 1, steps)]
+    steps = 50
+    precision = 10
+    interval = [i for i in range(0,10000, steps)]
 
     plotTime(interval, precision, steps, cuadratic)
