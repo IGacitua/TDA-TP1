@@ -115,7 +115,7 @@ def main():
     startTime = currentTime()
     print(f"Running {int(argv[3]) // int(argv[1])} iterations with {argv[2]} precision.")
     interval = [i for i in range(0, int(argv[3]) + 1, int(argv[1]))]
-    plotTime(measurableFunction, interval, int(argv[2]), quadratic)
+    plotTime(measurableFunction, quadratic, interval, int(argv[2]))
     print(f"Finished measuring in {currentTime() - startTime}s")
     
 
