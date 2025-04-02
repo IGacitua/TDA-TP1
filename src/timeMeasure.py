@@ -12,31 +12,53 @@ from fileUtils import fileCreator, fileReader # Generates disposable data
 
 debug = True
 
-# Return digit count of number
 def digits(num):
+    """
+    Devuelve cantidad de digitos de num.\n
+    """
     return len(str(num))
 
-# Ejecuta FUNCTION con PARAMS, devuelve el tiempo de ejecución en milisegundo
-def measureTime(function, *params):
+def measureTime(f, *params):
+    """
+    Mide el tiempo de ejecución de la función.\n
+    PARAMETER f: Function, La función a medir.\n
+    PARAMETER *params: Multiple, Todos los parametros de la función.\n
+    RETURNS: Float, tiempo de ejecución de la funcion en milisegundos.\n
+    """
     startTime = currentTime() # Current time
-    function(*params) # Executes function
+    f(*params) # Executes function
     return (currentTime() - startTime) * 1000 # Returns elapsed time in ms
 
-# Mide el tiempo de ejecución de FUNCTION con PARAMS, PRECISION veces y devuelve el promedio
-def averageTime(function, precision, *params):
+def averageTime(f, precision, *params):
+    """
+    Mide el tiempo promedio de ejecución de una función.\n
+    PARAMETER f: Function, La función a medir.\n
+    PARAMETER *params: Multiple, Todos los parametros de la función.\n
+    PARAMETER precision: Integer, cantidad de veces que ejecutar la función. Aumenta la precisión pero tarda mas en devolver resultado.\n
+    RETURNS: Float, tiempo promedio de ejecución de la funcion en milisegundos.\n 
+    """
     sum = 0 # Suma de todos los tiempos
     for i in range(precision):
-        sum += measureTime(function, *params)
+        sum += measureTime(f, *params)
     return sum / precision # Suma / Cantidad = Promedio
 
-# Funcion cuadrática
-def quadratic(x, c1, c2, c3):
-    return c1 * (x**2) + c2 * x + c3
+def quadratic(x, a, b, c):
+    """
+    Función cuadrática.\n
+    f(x) = aX^2 + bX + c\n
+    """
+    return a * (x**2) + b * x + c
 
-# Obtiene el tiempo de ejecución promedio de FUNC con X_VALUES, con un promedio obtenido de PRECISION iteraciones
-# Plotea la función original, y su curve_fit utilizando F
-# GENERATORSTEPS es cada cuanto varía cada valor de X (0,10,20,30,40,50) tiene STEPS de 10. Se utiliza para los ejes.
-def plotTime(x_values, precision, generatorSteps, f):
+def plotTime(measurable, x_values, precision, f):
+    """
+    Obtiene el tiempo de ejecución promedio de la función measurable() y lo grafica.\n
+    Luego, obtiene su curve_fit (Cuadrados minimos) y lo grafica mediante F.\n
+    PARAMETER measurable: Function, la función a medir y graficar.\n
+    PARAMETER x_values: Las variables independientes a graficar.\n
+    PARAMETER precision: La cantidad de ejecuciones de cada variable independiente. Aumenta precisión del promedio.\n
+    PARAMETER f: La función que utiliza curve_fit para aproximar measurable.\n
+    RETURNS: Nothing. Muestra los gráficos por ventana.\n
+    """
     p_id = datetime.now().microsecond # ID so you can run the program multiple times in paralel
     y_values_original = [] # Variables dependientes de la función sin ajustar
 
@@ -47,7 +69,7 @@ def plotTime(x_values, precision, generatorSteps, f):
         file = fileCreator(True, x_values[i], False, outPath=f"Automatic {p_id}-{dt}.txt") # Al usar siempre el mismo archivo no necesito setear semilla
         timestamps, operations = fileReader(file) # Obtiene los parametros utilizados por moleReader
         # NOTA: De reutilizar la función, cambiar linea de arriba
-        y_values_original.append(averageTime(measurableFunction, precision, timestamps, operations, []))
+        y_values_original.append(averageTime(measurable, precision, timestamps, operations, []))
         if debug:
             print(f"{x_values[i]:>0{width}}: {y_values_original[-1]:>07.2f}ms") # Ej: 02900: 45.97ms
         deleteFile(file) # Borra el archivo luego de uso.
@@ -61,7 +83,7 @@ def plotTime(x_values, precision, generatorSteps, f):
         print(f"C: {c}")
 
     # PLOT
-    plt.plot(x_values, y_values_original, label = "Original", c = "Black", linestyle="solid", alpha = 0.5) # Plot original
+    plt.plot(x_values, y_values_original, label = "Original", c = "Black", linestyle="solid", marker='.', alpha = 0.5) # Plot original
     plt.plot(x_values, y_values_adjusted, label = f.__name__.title(), c = "Red", linestyle="dashed") # Plot ajustada
 
     # LABELS
@@ -82,16 +104,18 @@ def plotTime(x_values, precision, generatorSteps, f):
     plt.legend()
     plt.show() # Muestro el gráfico
 
-# To prevent variables from being global
 def main():
+    """
+    Si se llama directamente al archivo, ejecuta plotTime().\n
+    ARGUMENT 1: Variación entre cada valor de las variables independientes del gráfico.\n
+    ARGUMENT 2: Precisión del medidor de promedio.\n
+    ARGUMENT 3: Cantidad máxima de las variables independientes.\n
+    """
     startTime = currentTime()
-    # ARGUMENT 1: Steps
-    # ARGUMENT 2: Precision
-    # ARGUMENT 3: Maximum Intervals
     print(f"Running {int(argv[3]) // int(argv[1])} iterations with {argv[2]} precision.")
     interval = [i for i in range(0, int(argv[3]) + 1, int(argv[1]))]
-    plotTime(interval, int(argv[2]), int(argv[1]), quadratic)
-    print(f"Finished in {currentTime() - startTime}s")
+    plotTime(measurableFunction, interval, int(argv[2]), quadratic)
+    print(f"Finished measuring in {currentTime() - startTime}s")
     
 
 if __name__ == '__main__':

@@ -25,11 +25,11 @@ def printResults(timestamps, isTheRat, testName, duration, verbose):
         print("Asignaciones: \n")
         for timestamp in timestamps:
             print(
-                timestamp["operation"],
+                timestamp["op"],
                 " --> ",
-                timestamp["time"],
+                timestamp["ts"],
                 " ± ",
-                timestamp["error"]
+                timestamp["er"]
             )
     print("\n")
 

@@ -1,20 +1,29 @@
-from timestampSort import sort_timestamps_by_end_time
+from timestampSort import sortIntervalsByEnd as sortIntervals
 
-def moleFinder(timestamps, operations, result_array):
-    sorted_timestamps = sort_timestamps_by_end_time(timestamps)
+def moleFinder(intervals, operations, result_array = None):
+    """
+    Función Principal.\n
+    Dado intervalos y operaciones, indica si cada operación tiene un intervalo en el que encaja.\n
+    Un intervalo no puede contener multiples operaciones.\n
+    PARAMETER intervals:    Lista de Diccionarios, dado por fileReader().\n
+    PARAMETER operations:   Lista de Integers, dado por fileReader().\n
+    PARAMETER result_array: Lista vacía, Opcional. Se guarda en que intervalo encaja cada operación.\n
+    RETURNS: Boolean. Si se pudieron encajar todas las operaciones con un intervalo o no.\n
+    """
+    sortedIntervals = sortIntervals(intervals)
 
     for operation in operations:
-        timestampContainingOperationThatEndsSooner = None
-        for timestamp in sorted_timestamps:
-            if operation >= timestamp["startTime"] and operation <= timestamp["endTime"] and timestamp["operation"] is None:
-                if timestampContainingOperationThatEndsSooner is None or timestamp["endTime"] < timestampContainingOperationThatEndsSooner["endTime"]:
+        intervalContainingOperationThatEndsSooner = None
+        for interval in sortedIntervals:
+            if (operation >= interval["startTime"]) and (operation <= interval["endTime"]) and (interval["op"] is None):
+                if intervalContainingOperationThatEndsSooner is None or interval["endTime"] < intervalContainingOperationThatEndsSooner["endTime"]:
                     # Se guarda el timestamp que contiene la operacion, termina antes y no tenia ninguna operación asignada
-                    timestampContainingOperationThatEndsSooner = timestamp
-        if timestampContainingOperationThatEndsSooner is None:
+                    intervalContainingOperationThatEndsSooner = interval
+        if intervalContainingOperationThatEndsSooner is None:
             # Ningun timestamp contenia a la operacion. No es la rata
             return False
         else:
-            timestampContainingOperationThatEndsSooner["operation"] = operation
-            result_array.append(timestampContainingOperationThatEndsSooner)
-
+            intervalContainingOperationThatEndsSooner["op"] = operation
+            if (result_array is list):
+                result_array.append(intervalContainingOperationThatEndsSooner)
     return True

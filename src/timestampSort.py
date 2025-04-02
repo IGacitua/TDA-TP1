@@ -1,4 +1,10 @@
-def sort_timestamps_by_end_time(arr):
+def sortIntervalsByEnd(arr):
+    """
+    Ordena el array de intervalos en base a su tiempo de fin, mediante Merge Sort.\n
+    PARAMETER arr: Array a ordenar.\n
+    RETURNS: El array ordenado. El arreglo original queda intacto.\n
+    """
+
     # Si la lista tiene un solo elemento o está vacía,
     # no es necesario dividirla
     if len(arr) <= 1:
@@ -10,13 +16,16 @@ def sort_timestamps_by_end_time(arr):
     right_half = arr[mid:]
 
     # Recursivamente ordenar ambas mitades
-    left_half = sort_timestamps_by_end_time(left_half)
-    right_half = sort_timestamps_by_end_time(right_half)
+    left_half = sortIntervalsByEnd(left_half)
+    right_half = sortIntervalsByEnd(right_half)
 
     # Fusionar las dos mitades ordenadas
     return merge(left_half, right_half)
 
 def merge(left, right):
+    """
+    Función utilizada por merge sort.\n
+    """
     sorted_arr = []
     i = j = 0
 
