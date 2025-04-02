@@ -3,7 +3,7 @@ import sys
 
 sys.path.append('./src/') # To import from ./src
 from moleFinder import *
-from fileReader import *
+from fileUtils import *
 
 debug = True
 

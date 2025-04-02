@@ -8,8 +8,7 @@ from matplotlib import pyplot as plt # Graphics
 from scipy.optimize import curve_fit # Adjust data to function
 # Internal libraries
 from moleFinder import moleFinder as measurableFunction # AS para poder reutilizar el codigo
-from intervalGenerator import fileCreator # Generates disposable data
-from fileReader import fileReader # Reads the generated data
+from fileUtils import fileCreator, fileReader # Generates disposable data
 
 debug = True
 

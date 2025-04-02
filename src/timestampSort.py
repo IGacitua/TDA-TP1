@@ -16,7 +16,6 @@ def sort_timestamps_by_end_time(arr):
     # Fusionar las dos mitades ordenadas
     return merge(left_half, right_half)
 
-
 def merge(left, right):
     sorted_arr = []
     i = j = 0

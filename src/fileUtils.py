@@ -2,6 +2,43 @@ import sys # Recieve command line parameters
 from random import randrange as rng # Generate the data
 from random import shuffle # Shuffle arrays before output to file
 
+# Lee el archivo dado por argumento
+# Formato como los archivos dados por los profesores
+# Devuelve una dupla.
+# Primer segmento es un array de duplas (timestamp, errorMargin)
+# Segundo segmento es un array de los tiempos de operaciones
+def fileReader(filePath):
+    # Get file from argument
+    file = open(filePath, 'r')
+    firstLine = file.readline()
+
+    elementCount = 0
+    # Ignore comment if exists
+    if (len(firstLine) == 0) or (firstLine[0] == '#'):
+        elementCount = int(file.readline())
+    else:
+        elementCount = int(firstLine)
+    
+    timestamps = []
+    operations = []
+    for i in range(elementCount):
+        # Timestamps
+        # {time, error, found}
+        timestamp = {}
+        line = file.readline().split(",")
+        timestamp["startTime"] = int(int(line[0]) - int(line[1]))
+        timestamp["endTime"] = int(int(line[0]) + int(line[1]))
+        timestamp["time"] = int(line[0])
+        timestamp["error"] = int(line[1])
+        timestamp["operation"] = None
+        timestamps.append(timestamp)
+    for i in range(elementCount):
+        # Operations
+        # (opTime)
+        operations.append(int(file.readline()))
+    file.close()
+    return timestamps, operations
+
 # Creates intervals and operations
 # If isRat, matches each operation with an interval
 def intervalGenerator(size, isRat):
@@ -51,6 +88,7 @@ def fileCreator(isRat, size, results, outPath = "src/default_output.txt"):
     
     return outPath # Devuelve donde es guarda el archivo final, para poder mandar directamente a otra función
 
+# Si se la llama directamente
 if __name__ == "__main__":
     # Input:
     # python intervalGenerator.py INT SIZE PATH
