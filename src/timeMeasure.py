@@ -45,14 +45,12 @@ def plotTime(x_values, precision, generatorSteps, f):
         print(f"C: {c}")
 
     xInterval = generatorSteps * (len(x_values) // 10) # Interval at which the X axis has markers
-    yInterval = generatorSteps * (len(y_values_original) // 10) # Interval at which the Y axis has markers
 
     plt.plot(x_values, y_values_original, label = "Original", c = "Black", linestyle="solid", marker=".", alpha = 0.5)
     plt.plot(x_values, y_values_adjusted, label = f.__name__.title(), c = "Red", linestyle="dotted")
     plt.xlabel("Interval count")
     plt.ylabel("Execution Time (ms)")
     plt.xticks(range(0, x_values[-1] + xInterval, xInterval)) 
-    plt.yticks(range(0, max(y_values_original[-1], y_values_adjusted[-1]) + yInterval, yInterval))
     plt.legend()
     plt.show()
 
@@ -60,6 +58,6 @@ def plotTime(x_values, precision, generatorSteps, f):
 if __name__ == '__main__':
     steps = 50
     precision = 10
-    interval = [i for i in range(0,10000, steps)]
+    interval = [i for i in range(0,1000, steps)]
 
     plotTime(interval, precision, steps, cuadratic)

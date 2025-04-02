@@ -21,7 +21,7 @@ def intervalGenerator(size, isRat):
             operations.append(random.randrange(1000))
     return intervals, operations
 
-def fileCreator(isRat, size, outPath = "default_output"):
+def fileCreator(isRat, size, outPath = "src/default_output.txt"):
     intervals, operations = intervalGenerator(size, isRat)
     mainFile = open(outPath, 'w')
     mainFile.write(f"# File generated automatically. Size {size}. Rat = {isRat}\n")
