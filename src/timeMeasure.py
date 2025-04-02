@@ -3,6 +3,7 @@ from os import remove as deleteFile # Delete excess files
 from sys import argv # Recieve command line parameters
 from time import time as currentTime # Measure time
 from datetime import datetime # To name files with current hour
+from collections.abc import Callable # Type Hint -> Function
 # External libraries
 from matplotlib import pyplot as plt # Graphics
 from scipy.optimize import curve_fit # Adjust data to function
@@ -18,7 +19,7 @@ def digits(num: any) -> int:
     """
     return len(str(num))
 
-def measureTime(f: function, *params) -> float:
+def measureTime(f: Callable, *params) -> float:
     """
     Mide el tiempo de ejecución de la función.\n
     PARAMETER f: Function, La función a medir.\n
@@ -29,7 +30,7 @@ def measureTime(f: function, *params) -> float:
     f(*params) # Executes function
     return (currentTime() - startTime) * 1000 # Returns elapsed time in ms
 
-def averageTime(f: function, precision: int, *params) -> float:
+def averageTime(f: Callable, precision: int, *params) -> float:
     """
     Mide el tiempo promedio de ejecución de una función.\n
     PARAMETER f: Function, La función a medir.\n
@@ -49,7 +50,7 @@ def quadratic(x: float, a: float, b: float, c: float) -> float:
     """
     return a * (x**2) + b * x + c
 
-def plotTime(measurable: function, f: function, x_values: list, precision: int):
+def plotTime(measurable: Callable, f: Callable, x_values: list, precision: int):
     """
     Obtiene el tiempo de ejecución promedio de la función measurable() y lo grafica.\n
     Luego, obtiene su curve_fit (Cuadrados minimos) y lo grafica mediante F.\n
