@@ -20,22 +20,18 @@ A continuación se muestra el código de la solución greedy del problema.
 
 \subsection{Análisis de complejidad}
 
-COMPLETAR... (Lo que esta abajo es todo de ejemplo)
+La complejidad del algoritmo planteado posee dos partes identificables, el ordenamiento mediante MergeSort de los timestamp por tiempo de fin y la asignacion de las transacciones a un timestamp
 
-La ecuación de recurrencia que corresponde a este algoritmo es: 
+Primero, hagamos un rapido analisis del ordenamiento MergeSort, este algoritmo divide el arreglo en subarreglos de la mitad de tamaño hasta llegar a un unico elemento, el cual se considera ordenado, luego combina los mismos de manera ordenada hasta llegar a nuestro arrreglo original ordenado en su totalidad. Si hablamos solo de temas de complejidad esta parte de nuestra respuesta tiene $\mathcal{O}\left(n \log n\right)$.
+
+Por otro lado tenemos la parte principal del algoritmo, lo que busca es asignar cada transacción a un timestamp diferente. Consigue esto tomando y verificando dentro de que timestamps se encuentra y asociándolo al que termina antes, y esto se realiza por cada transacción. Por lo tanto podemos deducir que esta parte del algoritmo es de $\mathcal{O}(n^2)$.
+
+Si vemos el algoritmo en su totalidad tiene $\mathcal{O}\left(n \log n\right)$ + $\mathcal{O}(n^2)$, pero cuando nos vamos a $n$ grandes, que son los casos que nos interesan para el análisis de la complejidad observamos que el algoritmo es de $\mathcal{O}(n^2)$
+
+Como se va a ver en las mediciones, esto no es exacto sino que es un aproximado en los peores casos
+
+(Lo dejo por si agregamos una ecuacion, asi esta el ejemplo)
 \begin{equation*} %nota: el asterisco es para que no aparezca el (1) al lado de la ecuación
     \mathcal{T}(n) = 2 \mathcal{T}\left(\frac{n}{2}\right) + \mathcal{O}(n)
 \end{equation*}
 
-Esto es porque tenemos 2 llamados recursivos, cada lado con la mitad del problema, y al partir hacemos una slice, lo cual en Python realiza una copia, por lo cual demora tiempo lineal en aplicarse en cada caso. 
-
-Aplicando el teorema maestro, la complejidad nos queda en $\mathcal{O}\left(n \log n\right)$. En este caso, nos quedó peor complejidad que en el caso iterativo pura y exclusivamente por abusar del lenguaje de programación sin tomar en cuenta el tiempo que consume hacer un slice. Dejando de hacer esto, podemos mostrar la siguiente versión del algoritmo: 
-
-En este caso, la ecuación de recurrencia es: 
-\begin{equation*}
-    \mathcal{T}(n) = 2 \mathcal{T}\left(\frac{n}{2}\right) + \mathcal{O}(1)
-\end{equation*}
-
-Aplicando el teorema maestro, nos queda que la complejidad es $\mathcal{O}\left(n\right)$.
-
-Es importante notar que en otros lenguajes de programación esto podría no ser necesario (por ejemplo, Go). En algunos lenguajes se puede operar usando Slices que consuman $\mathcal{O}(1)$ de tiempo (a cambio de utilizar la misma memoria que el arreglo original), o bien usando aritmética de punteros como puede ser el caso de C. Independientemente del caso, es importante notar que el algoritmo de división y conquista es lógicamente igual (o extremadamente similar), pero tenemos que considerar cuestiones de implementación del lenguaje elegido a la hora de definir las complejidades. 
