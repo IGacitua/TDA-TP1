@@ -175,3 +175,5 @@ cython_debug/
 
 # Carpeta de testing
 Test
+default_output - RESULTS
+default_output

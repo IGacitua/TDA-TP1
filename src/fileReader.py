@@ -11,7 +11,7 @@ def fileReader(filePath):
 
     elementCount = 0
     # Ignore comment if exists
-    if (firstLine[0] == '#'):
+    if (len(firstLine) == 0) or (firstLine[0] == '#'):
         elementCount = int(file.readline())
     else:
         elementCount = int(firstLine)
@@ -33,4 +33,5 @@ def fileReader(filePath):
         # Operations
         # (opTime)
         operations.append(int(file.readline()))
+    file.close()
     return timestamps, operations
