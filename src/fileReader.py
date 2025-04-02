@@ -33,4 +33,5 @@ def fileReader(filePath):
         # Operations
         # (opTime)
         operations.append(int(file.readline()))
+    file.close()
     return timestamps, operations
