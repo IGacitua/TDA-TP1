@@ -36,27 +36,14 @@ def printResults(timestamps, isTheRat, testName, duration, verbose):
 if __name__ == "__main__":
     verbose = True     # Especifica si se quiere imprimir en la salida todas las asignaciones
 
-    testNames = [
-        "5-es.txt",
-        "5-no-es.txt",
-        "10-es.txt",
-        "10-es-bis.txt",
-        "10-no-es.txt",
-        "10-no-es-bis.txt",
-        "50-es.txt",
-        "50-no-es.txt",
-        "100-es.txt",
-        "100-no-es.txt",
-        "500-es.txt",
-        "500-no-es.txt",
-        "1000-es.txt",
-        "1000-no-es.txt",
-        "5000-es.txt",
-        "5000-no-es.txt"
-    ]
 
-    for testName in testNames:
-        timestamps, operations = fileReader("tests/" + testName)
+    testFilePaths = sys.argv[1:]
+    print(testFilePaths)
+
+    for testFilePath in testFilePaths:
+        timestamps, operations = fileReader(testFilePath)
+        filePathSplitted = testFilePath.split("/")
+        testName = filePathSplitted[len(filePathSplitted) - 1]
 
         result_array = []
 

@@ -15,5 +15,6 @@ def moleFinder(timestamps, operations, result_array):
             return False
         else:
             timestampContainingOperationThatEndsSooner["operation"] = operation
+            result_array.append(timestampContainingOperationThatEndsSooner)
 
     return True
