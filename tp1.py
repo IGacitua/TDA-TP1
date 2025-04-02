@@ -8,22 +8,22 @@ from fileUtils import *
 debug = True
 
 
-def printResults(timestamps, isTheRat, testName, duration, verbose):
+def printResults(intervals: list, isRat: bool, testName: str, duration: float, verbose: bool):
     print("================================")
     print("Nombre de prueba: ", testName, "")
     print("---------------")
-    print("Número total de intervalos: ", len(timestamps))
+    print("Número total de intervalos: ", len(intervals))
     print("Tiempo total de ejecución: ", round(duration * 1000, 10), " milisegundos")
     print("---------------")
-    if isTheRat:
+    if isRat:
         print("Resultado: Es la rata!")
     else:
         print("Resultado: No es la rata!")
 
-    if verbose and len(timestamps) > 0:
+    if verbose and len(intervals) > 0:
         print("---------------")
         print("Asignaciones: \n")
-        for timestamp in timestamps:
+        for timestamp in intervals:
             print(
                 timestamp["op"],
                 " --> ",
@@ -33,9 +33,11 @@ def printResults(timestamps, isTheRat, testName, duration, verbose):
             )
     print("\n")
 
-
-if __name__ == "__main__":
-    verbose = True     # Especifica si se quiere imprimir en la salida todas las asignaciones
+def main():
+    """
+    Ejecuta moleFinder() e imprime resultados.\n
+    """
+    verbose = True # Especifica si se quiere imprimir en la salida todas las asignaciones
 
     testFilePaths = sys.argv[1:]
     print(testFilePaths)
@@ -53,3 +55,5 @@ if __name__ == "__main__":
 
         printResults(result_array, result, testName, totalTime, verbose)
 
+if __name__ == "__main__":
+    main()

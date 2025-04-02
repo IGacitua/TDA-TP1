@@ -2,7 +2,7 @@ import sys # Recieve command line parameters
 from random import randrange as rng # Generate the data
 from random import shuffle # Shuffle arrays before output to file
 
-def fileReader(filePath):
+def fileReader(filePath: str) -> tuple:
     """
     Lee el archivo dado por argumento, con el formato igual a los archivos dados de ejemplo.\n
     PARAMETER filePath: String, indica el archivo a leer.\n
@@ -46,7 +46,7 @@ def fileReader(filePath):
     file.close()
     return intervals, operations
 
-def dataGenerator(size, isRat):
+def dataGenerator(size: int, isRat: bool) -> tuple:
     """
     Genera intervalos y operaciones.\n
     PARAMETER size:  Integer, Cantidad de intervalos y operaciones.\n
@@ -56,25 +56,26 @@ def dataGenerator(size, isRat):
         OPERATIONS: Array de operation time.
     """
     intervals, operations = [None] * size, [None] * size
-    for i in range(size):
+
+    for t in range(size):
         # Generates time intervals (Timestamp, Error Margin)
         interval = {}
         interval['ts'] = rng(2, 1000) # Timestamp > 1
         interval['er'] = rng(1, interval['ts']) # Timestamp > Error Margin > 0
-        intervals[i] = interval # Adds created interval to list
+        intervals[t] = interval # Adds created interval to list
     if isRat:
         # Generates ONE operation within each interval
         for o in range(size):
             lowerBound = intervals[o]['ts'] - intervals[o]['er']
             upperBound = intervals[o]['ts'] + intervals[o]['er']
-            operations[i] = rng(lowerBound, upperBound)
+            operations[o] = rng(lowerBound, upperBound)
     else:
         # Generates operations randomly
         for o in range(size-1):
-            operations[i] = rng(1000)
+            operations[o] = rng(1000)
     return intervals, operations
 
-def fileCreator(isRat, size, results, outPath = "src/default_output.txt"):
+def fileCreator(isRat: bool, size: int, results: bool, outPath= "src/default_output.txt") -> str:
     """
     Genera un archivo utilizando dataGenerator().\n
     PARAMETER isRat:   Boolean, Se lo pasa a dataGenerator para saber si encajar cada operación en un intervalo o no.\n

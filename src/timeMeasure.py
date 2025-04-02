@@ -12,13 +12,13 @@ from fileUtils import fileCreator, fileReader # Generates disposable data
 
 debug = True
 
-def digits(num):
+def digits(num: any) -> int:
     """
     Devuelve cantidad de digitos de num.\n
     """
     return len(str(num))
 
-def measureTime(f, *params):
+def measureTime(f: function, *params) -> float:
     """
     Mide el tiempo de ejecución de la función.\n
     PARAMETER f: Function, La función a medir.\n
@@ -29,7 +29,7 @@ def measureTime(f, *params):
     f(*params) # Executes function
     return (currentTime() - startTime) * 1000 # Returns elapsed time in ms
 
-def averageTime(f, precision, *params):
+def averageTime(f: function, precision: int, *params) -> float:
     """
     Mide el tiempo promedio de ejecución de una función.\n
     PARAMETER f: Function, La función a medir.\n
@@ -42,21 +42,21 @@ def averageTime(f, precision, *params):
         sum += measureTime(f, *params)
     return sum / precision # Suma / Cantidad = Promedio
 
-def quadratic(x, a, b, c):
+def quadratic(x: float, a: float, b: float, c: float) -> float:
     """
     Función cuadrática.\n
     f(x) = aX^2 + bX + c\n
     """
     return a * (x**2) + b * x + c
 
-def plotTime(measurable, x_values, precision, f):
+def plotTime(measurable: function, f: function, x_values: list, precision: int):
     """
     Obtiene el tiempo de ejecución promedio de la función measurable() y lo grafica.\n
     Luego, obtiene su curve_fit (Cuadrados minimos) y lo grafica mediante F.\n
     PARAMETER measurable: Function, la función a medir y graficar.\n
+    PARAMETER f: La función que utiliza curve_fit para aproximar measurable.\n
     PARAMETER x_values: Las variables independientes a graficar.\n
     PARAMETER precision: La cantidad de ejecuciones de cada variable independiente. Aumenta precisión del promedio.\n
-    PARAMETER f: La función que utiliza curve_fit para aproximar measurable.\n
     RETURNS: Nothing. Muestra los gráficos por ventana.\n
     """
     p_id = datetime.now().microsecond # ID so you can run the program multiple times in paralel

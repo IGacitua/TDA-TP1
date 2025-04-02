@@ -1,4 +1,4 @@
-def sortIntervalsByEnd(arr):
+def sortIntervalsByEnd(arr: list) -> list:
     """
     Ordena el array de intervalos en base a su tiempo de fin, mediante Merge Sort.\n
     PARAMETER arr: Array a ordenar.\n
@@ -22,7 +22,7 @@ def sortIntervalsByEnd(arr):
     # Fusionar las dos mitades ordenadas
     return merge(left_half, right_half)
 
-def merge(left, right):
+def merge(left: list, right: list) -> list:
     """
     Función utilizada por merge sort.\n
     """

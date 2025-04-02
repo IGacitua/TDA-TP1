@@ -1,6 +1,6 @@
 from timestampSort import sortIntervalsByEnd as sortIntervals
 
-def moleFinder(intervals, operations, result_array = None):
+def moleFinder(intervals: list, operations: list, result_array: list = None):
     """
     Función Principal.\n
     Dado intervalos y operaciones, indica si cada operación tiene un intervalo en el que encaja.\n
@@ -24,6 +24,6 @@ def moleFinder(intervals, operations, result_array = None):
             return False
         else:
             intervalContainingOperationThatEndsSooner["op"] = operation
-            if (result_array is list):
+            if (result_array is not None):
                 result_array.append(intervalContainingOperationThatEndsSooner)
     return True
