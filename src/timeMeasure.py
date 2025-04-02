@@ -1,4 +1,5 @@
 import time
+import os
 from moleFinder import moleFinder
 from fileReader import fileReader
 from intervalGenerator import fileCreator
@@ -34,7 +35,9 @@ def cuadratic(x, c1, c2, c3):
 def plotTime(x_values, precision, generatorSteps, f):
     y_values_original = []
     for i in range(len(x_values)):
-        timestamps, operations = fileReader(fileCreator(True, x_values[i]))
+        file = fileCreator(True, x_values[i])
+        timestamps, operations = fileReader(file)
+        os.remove(file) 
         y_values_original.append(averageTime(moleFinder, precision, timestamps, operations, []))
         print(f"{x_values[i]}: {y_values_original[-1]}")
     c, pcov = curve_fit(f, x_values, y_values_original)
