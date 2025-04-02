@@ -1,11 +1,8 @@
 import sys
 import random
 
-def intervalGenerator(size, isRat, setSeed, seed):
-    intervals = []
-    operations = []
-    if setSeed:
-        random.seed(seed)
+def intervalGenerator(size, isRat):
+    intervals, operations = [], []
     for i in range(size):
         interval = {}
         timeStamp   = random.randrange(2, 1000) # Timestamp > 1
@@ -23,8 +20,8 @@ def intervalGenerator(size, isRat, setSeed, seed):
             operations.append(random.randrange(1000))
     return intervals, operations
 
-def fileCreator(isRat, size, results, setSeed = False, seed = 0, outPath = "src/default_output.txt"):
-    intervals, operations = intervalGenerator(size, isRat, setSeed, seed)
+def fileCreator(isRat, size, results, outPath = "src/default_output.txt"):
+    intervals, operations = intervalGenerator(size, isRat)
     mainFile = open(outPath, 'w')
     mainFile.write(f"# File generated automatically. Size {size}. Rat = {isRat}\n")
     mainFile.write(f"{str(size)}\n")
