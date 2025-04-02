@@ -1,11 +1,12 @@
 import time
-debug = True
-startTime = time.time()
 import sys
 
-sys.path.append('./src/')
+sys.path.append('./src/') # To import from ./src
 from moleFinder import *
 from fileReader import *
+
+debug = True
+
 
 def printResults(timestamps, isTheRat, testName, duration, verbose):
     print("================================")
@@ -15,9 +16,9 @@ def printResults(timestamps, isTheRat, testName, duration, verbose):
     print("Tiempo total de ejecución: ", round(duration * 1000, 10), " milisegundos")
     print("---------------")
     if isTheRat:
-        print("Resultado: Es la rata!!!")
+        print("Resultado: Es la rata!")
     else:
-        print("Resultado: NO es la rata!!!")
+        print("Resultado: NO es la rata!")
 
     if verbose and len(timestamps) > 0:
         print("---------------")
