@@ -21,12 +21,12 @@ def intervalGenerator(size, isRat):
             operations.append(random.randrange(1000))
     return intervals, operations
 
-def fileCreator(isRat, size, outPath = "src/default_output.txt"):
+def fileCreator(isRat, size, results, outPath = "src/default_output.txt"):
     intervals, operations = intervalGenerator(size, isRat)
     mainFile = open(outPath, 'w')
     mainFile.write(f"# File generated automatically. Size {size}. Rat = {isRat}\n")
     mainFile.write(f"{str(size)}\n")
-    if (isRat):
+    if (isRat and results):
         subFile = open(outPath + ' - RESULTS', 'w')
         for i in range(size):
             line = f"{operations[i]} --> {intervals[i]['ts']} +/- {intervals[i]['er']} \n"
@@ -48,4 +48,4 @@ if __name__ == "__main__":
     rat = True
     if (sys.argv[1] == 0):
         rat = False
-    fileCreator(rat, int(sys.argv[2]), sys.argv[3])
+    fileCreator(rat, int(sys.argv[2]), True, sys.argv[3])

@@ -35,7 +35,7 @@ def cuadratic(x, c1, c2, c3):
 def plotTime(x_values, precision, generatorSteps, f):
     y_values_original = []
     for i in range(len(x_values)):
-        file = fileCreator(True, x_values[i])
+        file = fileCreator(True, x_values[i], False)
         timestamps, operations = fileReader(file)
         os.remove(file) 
         y_values_original.append(averageTime(moleFinder, precision, timestamps, operations, []))
