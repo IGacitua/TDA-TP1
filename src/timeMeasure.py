@@ -21,7 +21,7 @@ def digits(num):
 def measureTime(function, *params):
     startTime = currentTime() # Current time
     function(*params) # Executes function
-    return (currentTime() - startTime) * 1000 # Returns elapsed time
+    return (currentTime() - startTime) * 1000 # Returns elapsed time in ms
 
 # Mide el tiempo de ejecución de FUNCTION con PARAMS, PRECISION veces y devuelve el promedio
 def averageTime(function, precision, *params):
@@ -50,7 +50,7 @@ def plotTime(x_values, precision, generatorSteps, f):
         # NOTA: De reutilizar la función, cambiar linea de arriba
         y_values_original.append(averageTime(measurableFunction, precision, timestamps, operations, []))
         if debug:
-            print(f"{x_values[i]:>0{width}}: {y_values_original[-1]:.2f}ms") # Ej: 02900: 45.97ms
+            print(f"{x_values[i]:>0{width}}: {y_values_original[-1]:>07.2f}ms") # Ej: 02900: 45.97ms
         deleteFile(file) # Borra el archivo luego de uso.
 
     c, pcov = curve_fit(f, x_values, y_values_original) # Obtiene la variación de X/Y en base a F
@@ -62,7 +62,7 @@ def plotTime(x_values, precision, generatorSteps, f):
         print(f"C: {c}")
 
     # PLOT
-    plt.plot(x_values, y_values_original, label = "Original", c = "Black", linestyle="solid", marker='.', alpha = 0.75) # Plot original
+    plt.plot(x_values, y_values_original, label = "Original", c = "Black", linestyle="solid", alpha = 0.5) # Plot original
     plt.plot(x_values, y_values_adjusted, label = f.__name__.title(), c = "Red", linestyle="dashed") # Plot ajustada
 
     # LABELS
@@ -83,12 +83,17 @@ def plotTime(x_values, precision, generatorSteps, f):
     plt.legend()
     plt.show() # Muestro el gráfico
 
-
-if __name__ == '__main__':
+# To prevent variables from being global
+def main():
+    startTime = currentTime()
     # ARGUMENT 1: Steps
     # ARGUMENT 2: Precision
     # ARGUMENT 3: Maximum Intervals
     print(f"Running {int(argv[3]) // int(argv[1])} iterations with {argv[2]} precision.")
     interval = [i for i in range(0, int(argv[3]) + 1, int(argv[1]))]
-
     plotTime(interval, int(argv[2]), int(argv[1]), quadratic)
+    print(f"Finished in {currentTime() - startTime}s")
+    
+
+if __name__ == '__main__':
+    main()
