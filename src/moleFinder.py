@@ -16,10 +16,4 @@ def moleFinder(timestamps, operations, result_array):
         else:
             timestampContainingOperationThatEndsSooner["operation"] = operation
 
-    isTheRat = True
-    for timestamp in sorted_timestamps:
-        result_array.append(timestamp)
-        if timestamp["operation"] is None:
-            isTheRat = False
-    
-    return isTheRat
+    return True
