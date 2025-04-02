@@ -1,4 +1,4 @@
-from sorters import sort_timestamps_by_end_time
+from timestampSort import sort_timestamps_by_end_time
 
 def moleFinder(timestamps, operations, result_array):
     sorted_timestamps = sort_timestamps_by_end_time(timestamps)
