@@ -50,7 +50,7 @@ def plotTime(x_values, precision, generatorSteps, f):
         # NOTA: De reutilizar la función, cambiar linea de arriba
         y_values_original.append(averageTime(measurableFunction, precision, timestamps, operations, []))
         if debug:
-            print(f"{x_values[i]:>0{width}}: {y_values_original[-1]:.2f}ms")
+            print(f"{x_values[i]:>0{width}}: {y_values_original[-1]:.2f}ms") # Ej: 02900: 45.97ms
         deleteFile(file) # Borra el archivo luego de uso.
 
     c, pcov = curve_fit(f, x_values, y_values_original) # Obtiene la variación de X/Y en base a F
