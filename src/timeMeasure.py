@@ -7,6 +7,7 @@ from collections.abc import Callable # Type Hint -> Function
 # External libraries
 from matplotlib import pyplot as plt # Graphics
 from scipy.optimize import curve_fit # Adjust data to function
+from numpy import max as arrayMaximum # Get highest element of array
 # Internal libraries
 from moleFinder import moleFinder as measurableFunction # AS para poder reutilizar el codigo
 from fileUtils import fileCreator, fileReader # Generates disposable data
@@ -88,7 +89,7 @@ def plotTime(measurable: Callable, f: Callable, x_values: list, precision: int):
         print(f"C: {c}")
 
     # PLOT
-    plt.plot(x_values, y_values_original, label = "Original", c = "Black", linestyle="solid", marker='.', alpha = 0.5) # Plot original
+    plt.plot(x_values, y_values_original, label = "Original", c = "Black", linestyle="solid",alpha = 0.5) # Plot original
     plt.plot(x_values, y_values_adjusted, label = f.__name__.title(), c = "Red", linestyle="dashed") # Plot ajustada
 
     # LABELS
@@ -98,11 +99,9 @@ def plotTime(measurable: Callable, f: Callable, x_values: list, precision: int):
     
     # X/Y axis marks.
     highestX = x_values[-1]
-    highestY = max(y_values_original[-1], y_values_adjusted[-1])
-    xTicks, yTicks = [],[]
-    for i in range(11):
-        xTicks.append(round((highestX / 10) * i, 2))
-        yTicks.append(round((highestY / 10) * i, 2))
+    highestY = max(arrayMaximum(y_values_original), arrayMaximum(y_values_adjusted))
+    xTicks = [round((highestX / 10) * i, 2) for i in range(11)]
+    yTicks = [round((highestY / 10) * i, 2) for i in range(11)]
     plt.xticks(xTicks)
     plt.yticks(yTicks)
 
