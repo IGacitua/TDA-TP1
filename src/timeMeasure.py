@@ -65,6 +65,10 @@ def plotTime(measurable: Callable, f: Callable, x_values: list, precision: int):
 
     width = digits(x_values[-1]) # Usado exclusivamente para prints
     for i in range(len(x_values)):
+        # Lo ideal sería recibir los parámetros de la función measurable() como *params
+        # Pero tendría que crear una función exclusivamente para generar los parámetros de moleFinder()
+        # Y no veo forma de hacerlo que quede bien
+ 
         dt = f"{datetime.now().hour}.{datetime.now().minute}.{datetime.now().second}"
         # Nombro el archivo para poder ejecutar dos instancias del programa sin problema
         file = fileCreator(True, x_values[i], False, outPath=f"Automatic {p_id}-{dt}.txt") # Al usar siempre el mismo archivo no necesito setear semilla
