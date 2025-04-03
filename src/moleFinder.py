@@ -13,17 +13,14 @@ def moleFinder(intervals: list, operations: list, result_array: list = None):
     sortedIntervals = sortIntervals(intervals)
 
     for operation in operations:
-        intervalContainingOperationThatEndsSooner = None
-        for interval in sortedIntervals:
-            if (operation >= interval["startTime"]) and (operation <= interval["endTime"]) and (interval["op"] is None):
-                if intervalContainingOperationThatEndsSooner is None or interval["endTime"] < intervalContainingOperationThatEndsSooner["endTime"]:
-                    # Se guarda el timestamp que contiene la operacion, termina antes y no tenia ninguna operación asignada
-                    intervalContainingOperationThatEndsSooner = interval
-        if intervalContainingOperationThatEndsSooner is None:
+        timestampFound = False
+        for timestamp in sortedIntervals:
+            if operation >= timestamp["startTime"] and operation <= timestamp["endTime"] and timestamp["op"] is None:
+                timestampFound = True
+                timestamp["op"] = operation
+                result_array.append(timestamp)
+                break
+        if not timestampFound:
             # Ningun timestamp contenia a la operacion. No es la rata
             return False
-        else:
-            intervalContainingOperationThatEndsSooner["op"] = operation
-            if (result_array is not None):
-                result_array.append(intervalContainingOperationThatEndsSooner)
     return True

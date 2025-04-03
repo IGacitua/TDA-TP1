@@ -5,9 +5,6 @@ sys.path.append('./src/') # To import from ./src
 from moleFinder import *
 from fileUtils import *
 
-debug = True
-
-
 def printResults(intervals: list, isRat: bool, testName: str, duration: float, verbose: bool):
     print("================================")
     print("Nombre de prueba: ", testName, "")
@@ -37,7 +34,7 @@ def main():
     """
     Ejecuta moleFinder() e imprime resultados.\n
     """
-    verbose = True # Especifica si se quiere imprimir en la salida todas las asignaciones
+    verbose = False # Especifica si se quiere imprimir en la salida todas las asignaciones
 
     testFilePaths = sys.argv[1:]
     print(testFilePaths)
