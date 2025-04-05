@@ -1,16 +1,16 @@
 # Python libraries
-from os import remove as deleteFile # Delete excess files
 from sys import argv # Recieve command line parameters
 from time import time as currentTime # Measure time
-from datetime import datetime # To name files with current hour
 from collections.abc import Callable # Type Hint -> Function
+from datetime import datetime # To name files with current hour
+from copy import deepcopy # To copy data
 # External libraries
 from matplotlib import pyplot as plt # Graphics
-from scipy.optimize import curve_fit # Adjust data to function
 from numpy import max as arrayMaximum # Get highest element of array
+from scipy.optimize import curve_fit # Adjust data to function
 # Internal libraries
 from moleFinder import moleFinder as measurableFunction # AS para poder reutilizar el codigo
-from fileUtils import fileCreator, fileReader # Generates disposable data
+from fileUtils import dataSimulator as simulationFunction # Generates disposable data
 
 debug = True
 
@@ -41,7 +41,7 @@ def averageTime(f: Callable, precision: int, *params) -> float:
     """
     sum = 0 # Suma de todos los tiempos
     for i in range(precision):
-        sum += measureTime(f, *params)
+        sum += measureTime(f, *deepcopy(params))
     return sum / precision # Suma / Cantidad = Promedio
 
 def quadratic(x: float, a: float, b: float, c: float) -> float:
@@ -51,34 +51,25 @@ def quadratic(x: float, a: float, b: float, c: float) -> float:
     """
     return a * (x**2) + b * x + c
 
-def plotTime(measurable: Callable, f: Callable, x_values: list, precision: int):
+def plotTime(f: Callable, x_values: list, precision: int, measurable: Callable, simulator: Callable):
     """
     Obtiene el tiempo de ejecución promedio de la función measurable() y lo grafica.\n
     Luego, obtiene su curve_fit (Cuadrados minimos) y lo grafica mediante F.\n
-    PARAMETER measurable: Function, la función a medir y graficar.\n
     PARAMETER f: La función que utiliza curve_fit para aproximar measurable.\n
     PARAMETER x_values: Las variables independientes a graficar.\n
     PARAMETER precision: La cantidad de ejecuciones de cada variable independiente. Aumenta precisión del promedio.\n
+    PARAMETER measurable: Function, la función a medir y graficar.\n
+    PARAMETER simulator: Funcion. Recibe como parametro un numero que representa una cantidad de datos, y devuelve los parametros que darle a measurable.\n
     RETURNS: Nothing. Muestra los gráficos por ventana.\n
     """
-    p_id = datetime.now().microsecond # ID so you can run the program multiple times in paralel
     y_values_original = [] # Variables dependientes de la función sin ajustar
-
     width = digits(x_values[-1]) # Usado exclusivamente para prints
+
     for i in range(len(x_values)):
-        # Lo ideal sería recibir los parámetros de la función measurable() como *params
-        # Pero tendría que crear una función exclusivamente para generar los parámetros de moleFinder()
-        # Y no veo forma de hacerlo que quede bien
- 
-        dt = f"{datetime.now().hour}.{datetime.now().minute}.{datetime.now().second}"
-        # Nombro el archivo para poder ejecutar dos instancias del programa sin problema
-        file = fileCreator(True, x_values[i], False, outPath=f"Automatic {p_id}-{dt}.txt") # Al usar siempre el mismo archivo no necesito setear semilla
-        timestamps, operations = fileReader(file) # Obtiene los parametros utilizados por moleReader
-        # NOTA: De reutilizar la función, cambiar linea de arriba
-        y_values_original.append(averageTime(measurable, precision, timestamps, operations, []))
+        parameters = simulator(x_values[i])
+        y_values_original.append(averageTime(measurable, precision, *parameters))
         if debug:
             print(f"{x_values[i]:>0{width}}: {y_values_original[-1]:>07.2f}ms") # Ej: 02900: 45.97ms
-        deleteFile(file) # Borra el archivo luego de uso.
 
     c, pcov = curve_fit(f, x_values, y_values_original) # Obtiene la variación de X/Y en base a F
     y_values_adjusted = [f(n,c[0],c[1], c[2]) for n in x_values] # Obtiene los valores ajustados en base a variación
@@ -118,7 +109,7 @@ def main():
     startTime = currentTime()
     print(f"Running {int(argv[3]) // int(argv[1])} iterations with {argv[2]} precision.")
     interval = [i for i in range(0, int(argv[3]) + 1, int(argv[1]))]
-    plotTime(measurableFunction, quadratic, interval, int(argv[2]))
+    plotTime(quadratic, interval, int(argv[2]), measurableFunction, simulationFunction)
     print(f"Finished measuring in {currentTime() - startTime}s")
     
 

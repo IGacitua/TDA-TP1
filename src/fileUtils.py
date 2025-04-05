@@ -1,6 +1,10 @@
 import sys # Recieve command line parameters
 from random import randrange as rng # Generate the data
 from random import shuffle # Shuffle arrays before output to file
+from datetime import datetime # To name files with current hour
+from random import random # To name files with a random ID
+from os import remove as deleteFile # Delete excess files
+
 from sorting import mergeSort # To sort operations
 
 def fileReader(filePath: str) -> tuple:
@@ -110,6 +114,18 @@ def fileCreator(isRat: bool, size: int, results: bool, outPath= "src/default_out
         mainFile.write(f"{operations[i]}\n")
     
     return outPath # Devuelve donde es guarda el archivo final, para poder mandar directamente a otra función
+
+def dataSimulator(size) -> tuple:
+    """
+    Simula el proceso de generación de datos, generación de archivo, y lectura de archivo en una sola función, con el objetivo de simular los tiempos de ejecución de un caso real.\n
+    PARAMETER size: Cantidad de intervalos y operaciones que posee el archivo.\n
+    RETURNS: Una tupla que consiste de ([timestamps], [operations], []), que puede pasarse directamente a moleFinder()
+    """
+    dt = f"{datetime.now().hour}.{datetime.now().minute}.{datetime.now().second}"
+    path = fileCreator(True, size, False, outPath=f"Automatic {(random() * 10):.6f}-{dt}.txt")
+    intervals, operations = fileReader(path)
+    deleteFile(path)
+    return intervals, operations, []
 
 def main():
     """
