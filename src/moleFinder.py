@@ -22,7 +22,5 @@ def moleFinder(intervals: list, operations: list, result_array: list = None):
                 break
         if not timestampFound:
             # Ningun timestamp contenia a la operacion. No es la rata
-            print("False")
             return False
-    print("True")
     return True
