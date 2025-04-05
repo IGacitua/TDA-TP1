@@ -55,10 +55,11 @@ def plotTime(f: Callable, x_values: list, precision: int, measurable: Callable, 
     """
     Obtiene el tiempo de ejecución promedio de la función measurable() y lo grafica.\n
     Luego, obtiene su curve_fit (Cuadrados minimos) y lo grafica mediante F.\n
-    PARAMETER measurable: Function, la función a medir y graficar.\n
     PARAMETER f: La función que utiliza curve_fit para aproximar measurable.\n
     PARAMETER x_values: Las variables independientes a graficar.\n
     PARAMETER precision: La cantidad de ejecuciones de cada variable independiente. Aumenta precisión del promedio.\n
+    PARAMETER measurable: Function, la función a medir y graficar.\n
+    PARAMETER simulator: Funcion. Recibe como parametro un numero que representa una cantidad de datos, y devuelve los parametros que darle a measurable.\n
     RETURNS: Nothing. Muestra los gráficos por ventana.\n
     """
     y_values_original = [] # Variables dependientes de la función sin ajustar
