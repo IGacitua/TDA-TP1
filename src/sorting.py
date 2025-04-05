@@ -38,7 +38,7 @@ def mergeSort(arr: list) -> list:
     right_half = mergeSort(right_half)
 
     # Fusionar las dos mitades ordenadas
-    return mergeIntervals(left_half, right_half)
+    return merge(left_half, right_half)
 
 def mergeIntervals(left: list, right: list) -> list:
     """
