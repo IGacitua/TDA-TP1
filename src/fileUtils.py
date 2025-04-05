@@ -1,6 +1,7 @@
 import sys # Recieve command line parameters
 from random import randrange as rng # Generate the data
 from random import shuffle # Shuffle arrays before output to file
+from sorting import mergeSort # To sort operations
 
 def fileReader(filePath: str) -> tuple:
     """
@@ -100,7 +101,7 @@ def fileCreator(isRat: bool, size: int, results: bool, outPath= "src/default_out
 
     # Desordena ambas listas
     shuffle(intervals)
-    shuffle(operations)
+    operations = mergeSort(operations)
 
     # Crea el resto archivo principal
     for i in range(size):

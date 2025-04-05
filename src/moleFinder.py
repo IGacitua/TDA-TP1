@@ -1,4 +1,4 @@
-from timestampSort import sortIntervalsByEnd as sortIntervals
+from sorting import sortIntervalsByEnd as sortIntervals
 
 def moleFinder(intervals: list, operations: list, result_array: list = None):
     """
